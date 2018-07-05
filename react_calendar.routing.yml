@@ -4,6 +4,14 @@ react_calendar.settings_form:
     _form: '\Drupal\react_calendar\Form\SettingsForm'
     _title: 'Configure React Calendar'
   requirements:
-    _permission: 'access administration pages'
+    _permission: 'administer react calendar'
   options:
     _admin_route: TRUE
+
+entity.node_type.react_calendar:
+  path: '/admin/structure/types/manage/{node_type}/react_calendar'
+  defaults:
+    _title: 'React Calendar'
+    _form: '\Drupal\react_calendar\Form\NodeTypeSettingsForm'
+  requirements:
+    _permission: 'administer react calendar'

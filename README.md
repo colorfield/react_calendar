@@ -1,6 +1,6 @@
 # React Calendar
 
-React frontend for the Drupal 8 [Calendar](https://www.drupal.org/project/calendar) module.
+React Calendar for Drupal 8.
 
 ## Dependencies
 
@@ -10,12 +10,20 @@ React frontend for the Drupal 8 [Calendar](https://www.drupal.org/project/calend
 
 ## Drupal
 
-- Calendar
-- Date Range
+- Date or Date Range (core)
 - JSON API
 
 ## Configuration 
 
-- Create an Event content type.
-- Enable the Date Range module.
-- Add a Date Range field to the content type.
+- Create an Event content type
+- Enable the Date or Date Range module
+- Add a date (Date or Date Range) field to the content type
+- Enable 'React Calendar' the desired content type(s)
+ and set the date field that will be used.
+
+## Roadmap
+
+- Week start day based on system configuration
+- Set locales based on current interface language
+- Optionally set colors based on taxonomy vocabulary (e.g. event type)
+- Update events with drag and drop.

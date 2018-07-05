@@ -1,1 +1,2 @@
 react_calendar:
+  default_view: 'month'
