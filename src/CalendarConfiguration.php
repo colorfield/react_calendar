@@ -52,17 +52,9 @@ class CalendarConfiguration implements CalendarConfigurationInterface {
   }
 
   /**
-   * Returns a list of enabled entity types.
-   *
-   * Example: if entity_type_id is node_type, returns the enabled content types.
-   *
-   * @param string $entity_type_id
-   *   The entity type (e.g. node_type);.
-   *
-   * @return array
-   *   List of enabled entity types.
+   * {@inheritdoc}
    */
-  private function getEnabledEntityTypeBundles($entity_type_id) {
+  public function getEnabledEntityTypeBundles($entity_type_id) {
     $result = [];
     try {
       $entityTypes = $this->entityTypeManager->getStorage($entity_type_id)->loadMultiple();
@@ -77,6 +69,24 @@ class CalendarConfiguration implements CalendarConfigurationInterface {
     catch (InvalidPluginDefinitionException $exception) {
       \Drupal::messenger()->addError($exception->getMessage());
     }
+    return $result;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getEnabledBundles() {
+    // TODO: Implement getEnabledBundles() method.
+    $result = [];
+    return $result;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDateFieldByBundles() {
+    // TODO: Implement getDateFieldByBundles() method.
+    $result = [];
     return $result;
   }
 

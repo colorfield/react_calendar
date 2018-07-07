@@ -21,6 +21,35 @@ interface CalendarConfigurationInterface {
   public function isBundleEnabled(ContentEntityInterface $entity);
 
   /**
+   * Returns a list of enabled entity types.
+   *
+   * Example: if entity_type_id is node_type, returns the enabled content types.
+   *
+   * @param string $entity_type_id
+   *   The entity type (e.g. node_type);.
+   *
+   * @return array
+   *   List of enabled entity types.
+   */
+  public function getEnabledEntityTypeBundles($entity_type_id);
+
+  /**
+   * Returns bundles that are enabled for the React Calendar.
+   *
+   * @return array
+   *   List of enabled bundles for React Calendar grouped by entity type.
+   */
+  public function getEnabledBundles();
+
+  /**
+   * Returns the date field that is configured for a bundle.
+   *
+   * @return string
+   *   Field name.
+   */
+  public function getDateFieldByBundles();
+
+  /**
    * Returns React Calendar's settings for an entity type bundle.
    *
    * @param string $setting

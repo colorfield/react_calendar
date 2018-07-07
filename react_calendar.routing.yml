@@ -15,3 +15,11 @@ entity.node_type.react_calendar:
     _form: '\Drupal\react_calendar\Form\NodeTypeSettingsForm'
   requirements:
     _permission: 'administer react calendar'
+
+react_calendar.calendar_controller:
+  path: '/react_calendar/calendar'
+  defaults:
+    _controller: '\Drupal\react_calendar\Controller\CalendarController::calendar'
+    _title: 'Calendar'
+  requirements:
+    _permission: 'access content'
