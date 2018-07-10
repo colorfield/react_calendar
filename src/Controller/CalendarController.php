@@ -52,30 +52,32 @@ class CalendarController extends ControllerBase {
   public function calendar() {
     $build = [];
 
-    $systemWideConfig = $this->configFactory->get('react_calendar.settings');
-    $enabledBundles = $this->reactCalendarConfig->getEnabledBundles();
-    if (empty($enabledBundles)) {
-      \Drupal::messenger()->addError($this->t('There must be at least one enabled bundle.'));
-      return $build;
-    }
+//    $systemWideConfig = $this->configFactory->get('react_calendar.settings');
+//    $enabledBundles = $this->reactCalendarConfig->getEnabledBundles();
+//    if (empty($enabledBundles)) {
+//      \Drupal::messenger()->addError($this->t('There must be at least one enabled bundle.'));
+//      return $build;
+//    }
+//
+//    $dateFieldByBundle = $this->reactCalendarConfig->getDateFieldByBundles();
+//    // @todo validate all configured bundles
+//    if (empty($dateFieldsByBundle)) {
+//      \Drupal::messenger()->addError($this->t('There must be one date field per bundle.'));
+//      return $build;
+//    }
 
-    $dateFieldsByBundle = $this->reactCalendarConfig->getDateFieldByBundles();
-    // @todo validate all configured bundles
-    if (empty($dateFieldsByBundle)) {
-      \Drupal::messenger()->addError($this->t('There must be one date field per bundle.'));
-      return $build;
-    }
-
+    // @todo provide values from reactCalendarConfig when implemented
+    //'#default_view' => $systemWideConfig->get('default_view'),
+    //'#enabled_bundles' => $enabledBundles,
+    //'#date_field_by_bundle' => $dateFieldByBundle,
     $build = [
       '#theme' => 'react_calendar',
+      '#default_view' => 'month',
+      '#enabled_bundles' => 'event', // array
+      '#date_field_by_bundle' => 'field_date_range', // array
       '#attached' => [
         'library' => [
           'react_calendar/react_calendar',
-        ],
-        'drupalSettings' => [
-          'default_view' => $systemWideConfig->get('default_view'),
-          'enabled_bundles' => $enabledBundles,
-          'date_fields_by_bundle' => $dateFieldsByBundle,
         ],
       ],
     ];

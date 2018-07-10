@@ -1,12 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import BigCalendar from 'react-big-calendar';
+import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import s from './CalendarView.css';
-import moment from 'moment';
 import api from '../utils/api.js';
 
-
 class CalendarView extends React.Component {
+
+  static propTypes = {
+    default_view: PropTypes.string.isRequired,
+    bundles: PropTypes.shape({
+      entity_type_id: PropTypes.string.isRequired,
+      bundle_id: PropTypes.string.isRequired,
+    }).isRequired,
+    date_fields: PropTypes.shape({
+      date_field: PropTypes.string.isRequired,
+      bundle_id: PropTypes.string.isRequired,
+    }).isRequired,
+  };
 
   /**
    * Returns the JSON API endpoint

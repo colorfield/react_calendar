@@ -14,5 +14,4 @@ react_calendar:
     js/dist/react_calendar.js: { attributes: { defer: true }}
   dependencies:
     - core/drupal
-    - core/drupalSettings
     - react_calendar/react

@@ -29,6 +29,11 @@ function react_calendar_help($route_name, RouteMatchInterface $route_match) {
 function react_calendar_theme() {
   return [
     'react_calendar' => [
+      'variables' => [
+        'default_view' => NULL,
+        'enabled_bundles' => NULL,
+        'date_field_by_bundle' => NULL,
+       ],
       'render element' => 'children',
     ],
   ];

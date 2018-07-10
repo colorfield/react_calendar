@@ -1,1 +1,18 @@
-<!-- Add you custom twig html here -->
+{#
+  Displays the React Calendar.
+  Available variables
+   - default_view:
+     Default view that will be displayed for the calendar.
+     Possible values: month, week, @todo complete list.
+   - enabled_bundles
+     Bundles that are enabled to be displayed in the calendar.
+     Grouped by entity type.
+   - date_field_by_bundle
+     Date field grouped by bundle.
+#}
+
+<div id="react-app-container"
+  data-default-view="{{ default_view }}"
+  data-enabled-bundles="{{ enabled_bundles }}"
+  data-date-field-by-bundle="{{ date_field_by_bundle }}">
+</div>
