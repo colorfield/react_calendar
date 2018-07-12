@@ -31,8 +31,7 @@ function react_calendar_theme() {
     'react_calendar' => [
       'variables' => [
         'default_view' => NULL,
-        'enabled_bundles' => NULL,
-        'date_field_by_bundle' => NULL,
+        'data_source' => NULL,
        ],
       'render element' => 'children',
     ],

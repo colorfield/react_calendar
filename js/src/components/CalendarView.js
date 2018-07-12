@@ -9,26 +9,26 @@ import api from '../utils/api.js';
 class CalendarView extends React.Component {
 
   static propTypes = {
-    default_view: PropTypes.string.isRequired,
-    bundles: PropTypes.shape({
+    dataSource: PropTypes.arrayOf(PropTypes.shape({
       entity_type_id: PropTypes.string.isRequired,
       bundle_id: PropTypes.string.isRequired,
-    }).isRequired,
-    date_fields: PropTypes.shape({
-      date_field: PropTypes.string.isRequired,
-      bundle_id: PropTypes.string.isRequired,
-    }).isRequired,
+      date_field_name: PropTypes.string.isRequired,
+    }).isRequired)
   };
 
   /**
    * Returns the JSON API endpoint
    * with optional params like filter, sort, ...
    *
-   * @param params
+   * @param params @todo document params, provide example
    * @returns {string}
    */
   static getEventsEndpoint(params = '') {
-    return `${api.getApiBaseUrl()}/jsonapi/node/event${params}`;
+    // @todo make use of dateBundle prop
+    // @todo iterate through dataSource prop
+    const entityType = 'node';
+    const bundle = 'event';
+    return `${api.getApiBaseUrl()}/jsonapi/${entityType}/${bundle}${params}`;
   }
 
   constructor(props) {
@@ -62,12 +62,13 @@ class CalendarView extends React.Component {
       .then(response => response.json())
       .then(jsonApiEvents => {
         let tmpEvents = [];
+        // Maps JSON API response to the structure expected by BigCalendar.
         jsonApiEvents.data.map(jsonApiEvent => (
             tmpEvents.push(
               {
                 id: jsonApiEvent.attributes.nid,
                 title: jsonApiEvent.attributes.title,
-                // @todo calculate from dates
+                // @todo set this property from start and end dates
                 allDay: false,
                 // @todo test existence of fields and pass their reference from
                 // Drupal
@@ -85,6 +86,8 @@ class CalendarView extends React.Component {
 
   render() {
 
+    const { defaultView } = this.props;
+
     if (this.state.hasError) {
       return <p>Error while loading events.</p>;
     }
@@ -100,10 +103,12 @@ class CalendarView extends React.Component {
       <div className={s.container}>
         <BigCalendar
           events={this.state.events}
+          defaultView={defaultView}
           views={allViews}
           step={60}
           showMultiDayTimes
-          defaultDate={new Date(2018, 6, 3)}
+          selectable={true}
+          defaultDate={new Date(2018, 6, 3)} // @todo current date
         />
       </div>
     );

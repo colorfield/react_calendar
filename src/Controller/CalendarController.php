@@ -50,31 +50,19 @@ class CalendarController extends ControllerBase {
    *   Return calendar render array.
    */
   public function calendar() {
-    $build = [];
-
-//    $systemWideConfig = $this->configFactory->get('react_calendar.settings');
+    $systemWideConfig = $this->configFactory->get('react_calendar.settings');
 //    $enabledBundles = $this->reactCalendarConfig->getEnabledBundles();
 //    if (empty($enabledBundles)) {
 //      \Drupal::messenger()->addError($this->t('There must be at least one enabled bundle.'));
 //      return $build;
 //    }
-//
-//    $dateFieldByBundle = $this->reactCalendarConfig->getDateFieldByBundles();
-//    // @todo validate all configured bundles
-//    if (empty($dateFieldsByBundle)) {
-//      \Drupal::messenger()->addError($this->t('There must be one date field per bundle.'));
-//      return $build;
-//    }
-
-    // @todo provide values from reactCalendarConfig when implemented
-    //'#default_view' => $systemWideConfig->get('default_view'),
-    //'#enabled_bundles' => $enabledBundles,
-    //'#date_field_by_bundle' => $dateFieldByBundle,
+    // @todo get enabled bundles
+    //'#data_source' => $enabledBundles,
     $build = [
       '#theme' => 'react_calendar',
-      '#default_view' => 'month',
-      '#enabled_bundles' => 'event', // array
-      '#date_field_by_bundle' => 'field_date_range', // array
+      '#default_view' => $systemWideConfig->get('default_view'),
+      // @todo array of bundle_id, entity_type_id, date_field_name
+      '#data_source' => 'event',
       '#attached' => [
         'library' => [
           'react_calendar/react_calendar',
@@ -82,7 +70,6 @@ class CalendarController extends ControllerBase {
       ],
     ];
     return $build;
-
   }
 
 }

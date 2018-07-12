@@ -84,15 +84,6 @@ class CalendarConfiguration implements CalendarConfigurationInterface {
   /**
    * {@inheritdoc}
    */
-  public function getDateFieldByBundles() {
-    // TODO: Implement getDateFieldByBundles() method.
-    $result = [];
-    return $result;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getEntityBundleSettings($setting, $entity_type_id, $bundle) {
     $config = $this->configFactory->get('react_calendar.entity_type.settings');
     $settings = unserialize($config->get('react_calendar_bundle.' . $entity_type_id . '.' . $bundle));

@@ -6,9 +6,15 @@ import api from "./utils/api";
 class App extends Component {
   render() {
 
-    // @todo get bundles and date fields.
-    const bundles = [{bundle_id:'event', entity_type_id:'node',}];
-    const dateFields = [{bundle_id:'event', date_field:'field_date_range',}];
+    /**
+     * "data": [{
+     *   "entity_type_id": "node",
+     *   "bundle_id": "event",
+     *   "date_field_name": "field_date_range"
+     * }]
+     * @type {string}
+     */
+    const dataSource = api.getDataAttributeValue('data-source');
     const defaultView = api.getDataAttributeValue('default-view');
 
     return (
@@ -20,7 +26,7 @@ class App extends Component {
           React frontend for the Drupal 8 Calendar module.
         </p>
 
-        <CalendarView bundles={bundles} date_fields={dateFields} default_view={defaultView} />
+        <CalendarView dataSource={dataSource.data} defaultView={defaultView} />
       </div>
     );
   }

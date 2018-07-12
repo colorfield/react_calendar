@@ -38,16 +38,9 @@ interface CalendarConfigurationInterface {
    *
    * @return array
    *   List of enabled bundles for React Calendar grouped by entity type.
+   *   Array of bundle_id, entity_type_id, date_field_name.
    */
   public function getEnabledBundles();
-
-  /**
-   * Returns the date field that is configured for a bundle.
-   *
-   * @return string
-   *   Field name.
-   */
-  public function getDateFieldByBundles();
 
   /**
    * Returns React Calendar's settings for an entity type bundle.
