@@ -31,6 +31,7 @@ class CalendarView extends React.Component {
   static getEventsEndpoint(languagePrefix, languageId, params = '') {
     // @todo make use of dateBundle prop
     // @todo iterate through dataSource prop
+    // @todo get events for current time span (month, week, ...) and callback on view change
     const entityType = 'node';
     const bundle = 'event';
     const baseUrlWithLanguagePrefix = languagePrefix ? `${api.getApiBaseUrl()}/${languageId}` : `${api.getApiBaseUrl()}`;
@@ -69,6 +70,8 @@ class CalendarView extends React.Component {
    * @param endpoint
    */
   fetchEvents(endpoint) {
+    // @todo get field from data attributes.
+    const dateField = 'field_datetime_range';
     this.setState({isLoading: true});
     fetch(endpoint)
       .then(response => {
@@ -80,19 +83,23 @@ class CalendarView extends React.Component {
       .then(response => response.json())
       .then(jsonApiEvents => {
         let tmpEvents = [];
-        // Maps JSON API response to the structure expected by BigCalendar.
-        jsonApiEvents.data.map(jsonApiEvent => (
+        // Filter events with no date.
+        const filteredEvents = jsonApiEvents.data.filter((event) =>
+          event.attributes[dateField] != null
+        );
+        // Map JSON API response to the structure expected by BigCalendar.
+        filteredEvents.map(event => (
             tmpEvents.push(
               {
                 // @todo generalize to other entity types
-                id: jsonApiEvent.attributes.nid,
-                title: jsonApiEvent.attributes.title,
+                id: event.attributes.nid,
+                title: event.attributes.title,
                 // @todo set this property from start and end dates
                 allDay: false,
                 // @todo test existence of fields, values and get
                 // their reference from data attributes
-                start: new Date(`${jsonApiEvent.attributes.field_datetime_range.value}Z`),
-                end: new Date(`${jsonApiEvent.attributes.field_datetime_range.end_value}Z`),
+                start: new Date(`${event.attributes[dateField].value}Z`),
+                end: new Date(`${event.attributes[dateField].end_value}Z`),
               }
             )
           )
