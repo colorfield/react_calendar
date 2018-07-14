@@ -16,6 +16,9 @@ class App extends Component {
      */
     const dataSource = api.getDataAttributeValue('data-source');
     const defaultView = api.getDataAttributeValue('default-view');
+    // Cast string as boolean.
+    const languagePrefix = (api.getDataAttributeValue('language-prefix') === 'true');
+    const languageId = api.getDataAttributeValue('language-id');
 
     return (
       <div className="App">
@@ -31,7 +34,12 @@ class App extends Component {
         ) : (
           <span />
         )}
-        <CalendarView dataSource={dataSource.data} defaultView={defaultView} />
+        <CalendarView
+          dataSource={dataSource.data}
+          defaultView={defaultView}
+          languagePrefix={languagePrefix}
+          languageId={languageId}
+        />
       </div>
     );
   }

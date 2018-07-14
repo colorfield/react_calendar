@@ -19,7 +19,11 @@ React progressive decoupling for Drupal 8 based on JSON API.
 - Enable the Date or Date Range module
 - Add a date (Date or Date Range) field to the content type
 - Enable 'React Calendar' for the desired content type(s)
- and set the date field that will be used.
+ and set the date field that will be used. This configuration 
+ method will be changed in favor of field instance configuration
+ to open the configuration to other entity types than nodes.
+ See roadmap.
+- Head to _/calendar_.
  
 ## Requirements
 
@@ -29,9 +33,12 @@ See [Service Workers available only to secure origins](https://www.chromium.org/
 ## Roadmap
 
 - Set enabled entity types from their field instance definition
+- Set Calendar view and date from the routing
 - Week start day based on system configuration
 - Set locales based on current interface language
 - Optionally set colors based on a taxonomy vocabulary (e.g. event type)
+- Provide GraphQL implementation
+- Choose between GraphQL or JSON API from the configuration
 - Update events via drag and drop.
 
 ## Development

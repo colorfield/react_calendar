@@ -39,6 +39,15 @@ class SettingsForm extends ConfigFormBase {
       '#options' => $calendarViews,
       '#default_value' => $config->get('default_view'),
     ];
+    $languageManager = \Drupal::languageManager();
+    if($languageManager->isMultilingual()) {
+      $form['language_prefix'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Language prefix'),
+        '#description' => $this->t('Get translated content from JSON API depending on the interface language.'),
+        '#default_value' => $config->get('language_prefix'),
+      ];
+    }
     return parent::buildForm($form, $form_state);
   }
 
@@ -47,8 +56,16 @@ class SettingsForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
+    // If the multilingual environment is disabled
+    // make sure that the jsonapi_language_prefix is set back to false.
+    $languageManager = \Drupal::languageManager();
+    $languagePrefix = $form_state->getValue('language_prefix');
+    if(!$languageManager->isMultilingual()) {
+      $languagePrefix = FALSE;
+    }
     $this->config('react_calendar.settings')
       ->set('default_view', $form_state->getValue('default_view'))
+      ->set('language_prefix', $languagePrefix)
       ->save();
   }
 

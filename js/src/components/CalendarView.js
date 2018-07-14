@@ -13,22 +13,28 @@ class CalendarView extends React.Component {
       entity_type_id: PropTypes.string.isRequired,
       bundle_id: PropTypes.string.isRequired,
       date_field_name: PropTypes.string.isRequired,
-    }).isRequired)
+    }).isRequired),
+    defaultView: PropTypes.string.isRequired,
+    languagePrefix: PropTypes.bool.isRequired,
+    languageId: PropTypes.string.isRequired,
   };
 
   /**
    * Returns the JSON API endpoint
    * with optional params like filter, sort, ...
    *
-   * @param params @todo document params, provide example
+   * @param languagePrefix
+   * @param languageId
+   * @param params @todo document, provide example
    * @returns {string}
    */
-  static getEventsEndpoint(params = '') {
+  static getEventsEndpoint(languagePrefix, languageId, params = '') {
     // @todo make use of dateBundle prop
     // @todo iterate through dataSource prop
     const entityType = 'node';
     const bundle = 'event';
-    return `${api.getApiBaseUrl()}/jsonapi/${entityType}/${bundle}${params}`;
+    const baseUrlWithLanguagePrefix = languagePrefix ? `${api.getApiBaseUrl()}/${languageId}` : `${api.getApiBaseUrl()}`;
+    return `${baseUrlWithLanguagePrefix}/jsonapi/${entityType}/${bundle}${params}`;
   }
 
   /**
@@ -37,7 +43,7 @@ class CalendarView extends React.Component {
    * @param entity_id
    * @param entity_type_id
    */
-  static getEventPage(entity_id, entity_type_id = 'node') {
+  static gotoEventPage(entity_id, entity_type_id = 'node') {
     // @todo path structure is subject to change depending on the entity type id
     window.location.href = `${api.getApiBaseUrl()}/${entity_type_id}/${entity_id}`;
   }
@@ -52,7 +58,8 @@ class CalendarView extends React.Component {
   }
 
   componentDidMount() {
-    const eventsEndpoint = CalendarView.getEventsEndpoint();
+    const { languagePrefix, languageId } = this.props;
+    const eventsEndpoint = CalendarView.getEventsEndpoint(languagePrefix, languageId);
     this.fetchEvents(eventsEndpoint);
   }
 
@@ -82,10 +89,10 @@ class CalendarView extends React.Component {
                 title: jsonApiEvent.attributes.title,
                 // @todo set this property from start and end dates
                 allDay: false,
-                // @todo test existence of fields and get
-                // their reference from Drupal
-                start: new Date(`${jsonApiEvent.attributes.field_date_range.value}Z`),
-                end: new Date(`${jsonApiEvent.attributes.field_date_range.end_value}Z`),
+                // @todo test existence of fields, values and get
+                // their reference from data attributes
+                start: new Date(`${jsonApiEvent.attributes.field_datetime_range.value}Z`),
+                end: new Date(`${jsonApiEvent.attributes.field_datetime_range.end_value}Z`),
               }
             )
           )
@@ -120,7 +127,7 @@ class CalendarView extends React.Component {
           step={60}
           showMultiDayTimes
           selectable={true}
-          onSelectEvent={event => CalendarView.getEventPage(event.id)}
+          onSelectEvent={event => CalendarView.gotoEventPage(event.id)}
         />
       </div>
     );

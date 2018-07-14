@@ -30,8 +30,10 @@ function react_calendar_theme() {
   return [
     'react_calendar' => [
       'variables' => [
-        'default_view' => NULL,
         'data_source' => NULL,
+        'default_view' => NULL,
+        'language_prefix' => NULL,
+        'language_id' => NULL,
       ],
       'render element' => 'children',
     ],

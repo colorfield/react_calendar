@@ -57,12 +57,15 @@ class CalendarController extends ControllerBase {
     //      return $build;
     //    }.
     // @todo get enabled bundles
-    $dataSource = "data': [{'entity_type_id': 'node','bundle_id': 'event','date_field_name': 'field_date_range'}]";
+    $dataSource = "data': [{'entity_type_id': 'node','bundle_id': 'event','date_field_name': 'field_datetime_range'}]";
+    $languagePrefix = $systemWideConfig->get('language_prefix') == '1' ? 'true' : 'false';
+    $languageId = $this->languageManager()->getCurrentLanguage()->getId();
     $build = [
       '#theme' => 'react_calendar',
-      '#default_view' => $systemWideConfig->get('default_view'),
-      // @todo array of bundle_id, entity_type_id, date_field_name
       '#data_source' => $dataSource,
+      '#default_view' => $systemWideConfig->get('default_view'),
+      '#language_prefix' => $languagePrefix,
+      '#language_id' => $languageId,
       '#attached' => [
         'library' => [
           'react_calendar/react_calendar',
