@@ -25,11 +25,6 @@ React progressive decoupling for Drupal 8 based on JSON API.
  See roadmap.
 - Head to _/calendar_.
  
-## Requirements
-
-- Website available via port :443 (https).
-See [Service Workers available only to secure origins](https://www.chromium.org/Home/chromium-security/prefer-secure-origins-for-powerful-new-features).
-
 ## Roadmap
 
 - Set enabled entity types from their field instance definition
