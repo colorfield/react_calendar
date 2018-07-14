@@ -1,6 +1,6 @@
 # React Calendar
 
-React Calendar for Drupal 8.
+React progressive decoupling for Drupal 8 based on JSON API.
 
 ## Dependencies
 
@@ -20,6 +20,11 @@ React Calendar for Drupal 8.
 - Add a date (Date or Date Range) field to the content type
 - Enable 'React Calendar' for the desired content type(s)
  and set the date field that will be used.
+ 
+## Requirements
+
+- Website available via port :443 (https).
+See [Service Workers available only to secure origins](https://www.chromium.org/Home/chromium-security/prefer-secure-origins-for-powerful-new-features).
 
 ## Roadmap
 
@@ -31,6 +36,12 @@ React Calendar for Drupal 8.
 
 ## Development
 
+### Drupal
+
+- Use your favourite Drupal 8 dev environment.
+- Enable the React Calendar module.
+- Configure CORS to allow `* | localhost:3000`.
+
 ### React
 
 1. cd in _react_calendar/js/src_
@@ -40,6 +51,6 @@ and set there your Drupal 8 development site url.
 It will be used while debugging React as a standalone app for JSON API requests.
 4. Edit _App.js_ or the components.
 5. Run `yarn start` to start the React development server 
-and test your app outside of Drupal.
+and test your app outside of Drupal (localhost:3000).
 6. Run `php build.php` to bundle the dist js and css. 
 that are referenced by _react_calendar.libraries.yml_.

@@ -19,13 +19,18 @@ class App extends Component {
 
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">React Calendar</h1>
-        </header>
-        <p className="App-intro">
-          React frontend for the Drupal 8 Calendar module.
-        </p>
-
+        {api.isDevEnvironment() ? (
+          <div>
+            <header className="App-header">
+              <h1 className="App-title">React Calendar</h1>
+            </header>
+            <p className="App-intro">
+            React progressive decoupling for Drupal 8 based on JSON API.
+            </p>
+          </div>
+        ) : (
+          <span />
+        )}
         <CalendarView dataSource={dataSource.data} defaultView={defaultView} />
       </div>
     );

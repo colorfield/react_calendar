@@ -32,7 +32,7 @@ function react_calendar_theme() {
       'variables' => [
         'default_view' => NULL,
         'data_source' => NULL,
-       ],
+      ],
       'render element' => 'children',
     ],
   ];

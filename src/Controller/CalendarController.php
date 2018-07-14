@@ -51,18 +51,18 @@ class CalendarController extends ControllerBase {
    */
   public function calendar() {
     $systemWideConfig = $this->configFactory->get('react_calendar.settings');
-//    $enabledBundles = $this->reactCalendarConfig->getEnabledBundles();
-//    if (empty($enabledBundles)) {
-//      \Drupal::messenger()->addError($this->t('There must be at least one enabled bundle.'));
-//      return $build;
-//    }
+    // $enabledBundles = $this->reactCalendarConfig->getEnabledBundles();
+    //    if (empty($enabledBundles)) {
+    //      \Drupal::messenger()->addError($this->t('There must be at least one enabled bundle.'));
+    //      return $build;
+    //    }.
     // @todo get enabled bundles
-    //'#data_source' => $enabledBundles,
+    $dataSource = "data': [{'entity_type_id': 'node','bundle_id': 'event','date_field_name': 'field_date_range'}]";
     $build = [
       '#theme' => 'react_calendar',
       '#default_view' => $systemWideConfig->get('default_view'),
       // @todo array of bundle_id, entity_type_id, date_field_name
-      '#data_source' => 'event',
+      '#data_source' => $dataSource,
       '#attached' => [
         'library' => [
           'react_calendar/react_calendar',

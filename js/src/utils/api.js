@@ -15,7 +15,17 @@ export default class Api {
   static getApiBaseUrl() {
     const origin = window.location.origin
     // @todo include a selection for local, test, production
-    return origin.includes('localhost') ? DEBUG_URL : origin
+    return Api.isDevEnvironment() ? DEBUG_URL : origin
+  }
+
+  /**
+   * Checks if the Url contains 'localhost'.
+   *
+   * @returns {*|boolean}
+   */
+  static isDevEnvironment() {
+    const origin = window.location.origin
+    return origin.includes('localhost')
   }
 
   /**
