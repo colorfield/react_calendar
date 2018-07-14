@@ -82,14 +82,14 @@ class CalendarView extends React.Component {
       })
       .then(response => response.json())
       .then(jsonApiEvents => {
-        let tmpEvents = [];
         // Filter events with no date.
         const filteredEvents = jsonApiEvents.data.filter((event) =>
           event.attributes[dateField] != null
         );
         // Map JSON API response to the structure expected by BigCalendar.
+        let bigCalendarEvents = [];
         filteredEvents.map(event => (
-            tmpEvents.push(
+          bigCalendarEvents.push(
               {
                 // @todo generalize to other entity types
                 id: event.attributes.nid,
@@ -104,7 +104,7 @@ class CalendarView extends React.Component {
             )
           )
         );
-        this.setState({events: tmpEvents});
+        this.setState({events: bigCalendarEvents});
         this.setState({isLoading: false});
       })
       .catch(() => this.setState({hasError: true}));

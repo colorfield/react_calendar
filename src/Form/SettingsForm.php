@@ -31,7 +31,12 @@ class SettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('react_calendar.settings');
-    $calendarViews = ['month', 'week', 'day', 'agenda'];
+    $calendarViews = [
+      'month' => $this->t('Month'),
+      'week' => $this->t('Week'),
+      'day' => $this->t('Day'),
+      'agenda' => $this->t('Agenda'),
+    ];
     $form['default_view'] = [
       '#type' => 'select',
       '#title' => $this->t('Default view'),
