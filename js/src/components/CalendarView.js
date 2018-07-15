@@ -20,38 +20,27 @@ class CalendarView extends React.Component {
   };
 
   /**
-   * Returns the JSON API endpoint
-   * with optional params like filter, sort, ...
+   * Callback of onSelectEvent.
    *
-   * @param languagePrefix
-   * @param languageId
-   * @param params @todo document, provide example
-   * @returns {string}
-   */
-  static getEventsEndpoint(languagePrefix, languageId, params = '') {
-    // @todo make use of dateBundle prop
-    // @todo iterate through dataSource prop
-    // @todo get events for current time span (month, week, ...) and callback on view change
-    const entityType = 'node';
-    const bundle = 'event';
-    const baseUrlWithLanguagePrefix = languagePrefix ? `${api.getApiBaseUrl()}/${languageId}` : `${api.getApiBaseUrl()}`;
-    return `${baseUrlWithLanguagePrefix}/jsonapi/${entityType}/${bundle}${params}`;
-  }
-
-  /**
-   * Go to the event detail page.
+   * Go if the event detail page.
    *
    * @param entity_id
    * @param entity_type_id
    */
   static gotoEventPage(entity_id, entity_type_id = 'node') {
-    // @todo path structure is subject to change depending on the entity type id
+    // @todo path structure is subject to change depending on the entity type id.
+    // @todo set language in path if languagePrefix set to true.
     window.location.href = `${api.getApiBaseUrl()}/${entity_type_id}/${entity_id}`;
   }
 
   constructor(props) {
     super(props);
+    // Init to current date.
+    const date = new Date();
     this.state = {
+      dayView: date.getDay(),
+      monthView: date.getMonth(),
+      yearView: date.getFullYear(),
       events: [],
       hasError: false,
       isLoading: true,
@@ -59,8 +48,7 @@ class CalendarView extends React.Component {
   }
 
   componentDidMount() {
-    const { languagePrefix, languageId } = this.props;
-    const eventsEndpoint = CalendarView.getEventsEndpoint(languagePrefix, languageId);
+    const eventsEndpoint = this.getEventsEndpoint();
     this.fetchEvents(eventsEndpoint);
   }
 
@@ -110,6 +98,41 @@ class CalendarView extends React.Component {
       .catch(() => this.setState({hasError: true}));
   }
 
+  /**
+   * Returns the JSON API endpoint
+   * with optional params like filter, sort, ...
+   *
+   * @returns {string}
+   */
+  getEventsEndpoint() {
+    const { languagePrefix, languageId } = this.props;
+    // @todo make use of dateBundle prop
+    // @todo iterate through dataSource prop
+    // @todo get events for current time span (month, week, ...) and callback on view change
+    const entityType = 'node';
+    const bundle = 'event';
+
+    // @todo get field from data attributes.
+    const dateField = 'field_datetime_range';
+    const monthWithPadding = ("0" + (this.state.monthView + 1)).slice(-2);
+    const viewedDate = `${this.state.yearView}-${monthWithPadding}-01T00:00:00`;
+    const params = `filter[date-filter][condition][path]=${dateField}&filter[date-filter][condition][operator]=%3E%3D&filter[date-filter][condition][operator][value]=${viewedDate}`;
+    const baseUrlWithLanguagePrefix = languagePrefix ? `${api.getApiBaseUrl()}/${languageId}` : `${api.getApiBaseUrl()}`;
+    return `${baseUrlWithLanguagePrefix}/jsonapi/${entityType}/${bundle}`;// ?${params}
+  }
+
+  /**
+   * Callback of onNavigate.
+   *
+   * @param date
+   * @param view
+   */
+  onNavigate(date, view) {
+    this.setState({yearView: date.getFullYear(), monthView: date.getMonth(), dayView: date.getDay()});
+    const endpoint = this.getEventsEndpoint();
+    this.fetchEvents(endpoint);
+  }
+
   render() {
 
     const { defaultView } = this.props;
@@ -128,6 +151,7 @@ class CalendarView extends React.Component {
     return (
       <div className={s.container}>
         <BigCalendar
+          date={new Date(this.state.yearView, this.state.monthView, this.state.dayView)}
           events={this.state.events}
           defaultView={defaultView}
           views={allViews}
@@ -135,6 +159,7 @@ class CalendarView extends React.Component {
           showMultiDayTimes
           selectable={true}
           onSelectEvent={event => CalendarView.gotoEventPage(event.id)}
+          onNavigate={(date, view) => this.onNavigate(date, view)}
         />
       </div>
     );
