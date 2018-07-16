@@ -92,8 +92,7 @@ class CalendarView extends React.Component {
             )
           )
         );
-        this.setState({events: bigCalendarEvents});
-        this.setState({isLoading: false});
+        this.setState({events: bigCalendarEvents, isLoading: false});
       })
       .catch(() => this.setState({hasError: true}));
   }
@@ -115,8 +114,8 @@ class CalendarView extends React.Component {
     // @todo get field from data attributes.
     const dateField = 'field_datetime_range';
     const monthWithPadding = ("0" + (this.state.monthView + 1)).slice(-2);
-    const viewedDate = `${this.state.yearView}-${monthWithPadding}-01T00:00:00`;
-    const params = `filter[date-filter][condition][path]=${dateField}&filter[date-filter][condition][operator]=%3E%3D&filter[date-filter][condition][value]=${viewedDate}`;
+    const viewedMonth= `${this.state.yearView}-${monthWithPadding}`;
+    const params = `filter[date-filter][condition][path]=${dateField}&filter[date-filter][condition][operator]=STARTS_WITH&filter[date-filter][condition][value]=${viewedMonth}`;
     const baseUrlWithLanguagePrefix = languagePrefix ? `${api.getApiBaseUrl()}/${languageId}` : `${api.getApiBaseUrl()}`;
     return `${baseUrlWithLanguagePrefix}/jsonapi/${entityType}/${bundle}?${params}`;
   }
