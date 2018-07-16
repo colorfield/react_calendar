@@ -48,8 +48,7 @@ class CalendarView extends React.Component {
   }
 
   componentDidMount() {
-    const eventsEndpoint = this.getEventsEndpoint();
-    this.fetchEvents(eventsEndpoint);
+    this.fetchEvents();
   }
 
   /**
@@ -57,7 +56,8 @@ class CalendarView extends React.Component {
    *
    * @param endpoint
    */
-  fetchEvents(endpoint) {
+  fetchEvents() {
+    const endpoint = this.getEventsEndpoint();
     // @todo get field from data attributes.
     const dateField = 'field_datetime_range';
     this.setState({isLoading: true});
@@ -116,9 +116,9 @@ class CalendarView extends React.Component {
     const dateField = 'field_datetime_range';
     const monthWithPadding = ("0" + (this.state.monthView + 1)).slice(-2);
     const viewedDate = `${this.state.yearView}-${monthWithPadding}-01T00:00:00`;
-    const params = `filter[date-filter][condition][path]=${dateField}&filter[date-filter][condition][operator]=%3E%3D&filter[date-filter][condition][operator][value]=${viewedDate}`;
+    const params = `filter[date-filter][condition][path]=${dateField}&filter[date-filter][condition][operator]=%3E%3D&filter[date-filter][condition][value]=${viewedDate}`;
     const baseUrlWithLanguagePrefix = languagePrefix ? `${api.getApiBaseUrl()}/${languageId}` : `${api.getApiBaseUrl()}`;
-    return `${baseUrlWithLanguagePrefix}/jsonapi/${entityType}/${bundle}`;// ?${params}
+    return `${baseUrlWithLanguagePrefix}/jsonapi/${entityType}/${bundle}?${params}`;
   }
 
   /**
@@ -128,15 +128,19 @@ class CalendarView extends React.Component {
    * @param view
    */
   onNavigate(date, view) {
-    this.setState({yearView: date.getFullYear(), monthView: date.getMonth(), dayView: date.getDay()});
-    const endpoint = this.getEventsEndpoint();
-    this.fetchEvents(endpoint);
+    this.setState({
+      yearView: date.getFullYear(),
+      monthView: date.getMonth(),
+      dayView: date.getDay()
+    // Set fetchEvents as a callback, so we wait for states.
+    }, this.fetchEvents);
   }
 
   render() {
 
     const { defaultView } = this.props;
 
+    // @todo localize
     if (this.state.hasError) {
       return <p>Error while loading events.</p>;
     }
