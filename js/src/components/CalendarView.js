@@ -84,8 +84,6 @@ class CalendarView extends React.Component {
                 title: event.attributes.title,
                 // @todo set this property from start and end dates
                 allDay: false,
-                // @todo test existence of fields, values and get
-                // their reference from data attributes
                 start: new Date(`${event.attributes[dateField].value}Z`),
                 end: new Date(`${event.attributes[dateField].end_value}Z`),
               }
