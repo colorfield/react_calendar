@@ -24,13 +24,15 @@ React progressive decoupling for Drupal 8 based on JSON API.
  method will be changed in favor of field instance configuration
  to open the configuration to other entity types than nodes.
  See roadmap.
-- Head to _/calendar_.
+- Head to _/react_calendar/calendar_.
  
 ## Roadmap
 
 - Set enabled entity types from their field instance definition
 - Set Calendar view and date from the routing
 - Configure Calendar exposed views (month, week, day, agenda)
+- Expose calendar as a block
+- Add permission to view the calendar
 - Week start day based on system configuration
 - Set locales based on current interface language
 - Optionally set colors based on a taxonomy vocabulary (e.g. event type)
