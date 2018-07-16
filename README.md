@@ -6,12 +6,13 @@ React progressive decoupling for Drupal 8 based on JSON API.
 
 ### React
 
+- [Big Calendar](https://github.com/intljusticemission/react-big-calendar)
 - [Moment](https://www.npmjs.com/package/react-moment)
 
 ## Drupal
 
 - Date or Date Range (core)
-- JSON API
+- JSON API ([The path for JSON API to core](https://www.drupal.org/project/jsonapi/issues/2931785))
 
 ## Configuration 
 
@@ -29,6 +30,7 @@ React progressive decoupling for Drupal 8 based on JSON API.
 
 - Set enabled entity types from their field instance definition
 - Set Calendar view and date from the routing
+- Configure Calendar exposed views (month, week, day, agenda)
 - Week start day based on system configuration
 - Set locales based on current interface language
 - Optionally set colors based on a taxonomy vocabulary (e.g. event type)
