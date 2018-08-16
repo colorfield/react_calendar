@@ -11,5 +11,5 @@ $css = explode("\n", $css)[0];
 
 echo "\n$js\n$css\n\n";
 
-shell_exec("mv ../build/static/js/{$js} ../dist/react_calendar.js");
-shell_exec("mv ../build/static/css/{$css} ../../css/dist/react_calendar.css");
+shell_exec("cp ../build/static/js/{$js} ../build/static/js/react_calendar.js");
+shell_exec("cp ../build/static/css/{$css} ../build/static/css/react_calendar.css");

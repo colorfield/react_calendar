@@ -1,7 +1,7 @@
 react_calendar:
   css:
     theme:
-      css/dist/react_calendar.css: {}
+      js/build/static/css/react_calendar.css: {}
   js:
     js/startsWithPolyfill.js: { attributes: { defer: true }}
-    js/dist/react_calendar.js: { attributes: { defer: true }}
+    js/build/static/js/react_calendar.js: { attributes: { defer: true }}
