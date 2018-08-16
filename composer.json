@@ -10,5 +10,7 @@
     "issues": "https://www.drupal.org/project/issues/react_calendar",
     "source": "http://cgit.drupalcode.org/react_calendar"
   },
-  "require": { }
+  "require": {
+    "drupal/jsonapi": "2.x-dev"
+  }
 }

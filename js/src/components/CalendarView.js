@@ -53,8 +53,6 @@ class CalendarView extends React.Component {
 
   /**
    * Fetches events data.
-   *
-   * @param endpoint
    */
   fetchEvents() {
     const endpoint = this.getEventsEndpoint();
@@ -80,12 +78,13 @@ class CalendarView extends React.Component {
           bigCalendarEvents.push(
               {
                 // @todo generalize to other entity types
-                id: event.attributes.nid,
+                id: event.attributes.drupal_internal__nid,
                 title: event.attributes.title,
                 // @todo set this property from start and end dates
                 allDay: false,
-                start: new Date(`${event.attributes[dateField].value}Z`),
-                end: new Date(`${event.attributes[dateField].end_value}Z`),
+                // Convert date with timezone if any.
+                start: moment(event.attributes[dateField].value, 'YYYY-MM-DDTHH:mm:ssZ').toDate(),
+                end: moment(event.attributes[dateField].end_value, 'YYYY-MM-DDTHH:mm:ssZ').toDate(),
               }
             )
           )
