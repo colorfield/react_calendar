@@ -1,2 +1,1 @@
-react_calendar:
-  default_view: 'month'
+default_view: 'month'
