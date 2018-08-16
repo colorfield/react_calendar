@@ -12,7 +12,7 @@ React progressive decoupling for Drupal 8 based on JSON API.
 ## Drupal
 
 - Date or Date Range (core)
-- JSON API ([The path for JSON API to core](https://www.drupal.org/project/jsonapi/issues/2931785))
+- JSON API 2.x ([The path for JSON API to core](https://www.drupal.org/project/jsonapi/issues/2931785))
 
 ## Configuration 
 

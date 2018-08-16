@@ -18,6 +18,7 @@ class CalendarController extends ControllerBase {
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
+
   /**
    * Drupal\react_calendar\CalendarConfigurationInterface definition.
    *
@@ -52,11 +53,12 @@ class CalendarController extends ControllerBase {
   public function calendar() {
     $systemWideConfig = $this->configFactory->get('react_calendar.settings');
     // $enabledBundles = $this->reactCalendarConfig->getEnabledBundles();
-    //    if (empty($enabledBundles)) {
-    //      \Drupal::messenger()->addError($this->t('There must be at least one enabled bundle.'));
-    //      return $build;
-    //    }.
-    // @todo get enabled bundles
+    // if (empty($enabledBundles)) {
+    // \Drupal::messenger()->
+    // addError($this->t('There must be at least one enabled bundle.'));
+    // return $build;
+    // }.
+    // @todo get enabled bundles and configured field
     $dataSource = "data': [{'entity_type_id': 'node','bundle_id': 'event','date_field_name': 'field_datetime_range'}]";
     $languagePrefix = $systemWideConfig->get('language_prefix') == '1' ? 'true' : 'false';
     $languageId = $this->languageManager()->getCurrentLanguage()->getId();

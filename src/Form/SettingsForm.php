@@ -45,7 +45,7 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('default_view'),
     ];
     $languageManager = \Drupal::languageManager();
-    if($languageManager->isMultilingual()) {
+    if ($languageManager->isMultilingual()) {
       $form['language_prefix'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Language prefix'),
@@ -65,7 +65,7 @@ class SettingsForm extends ConfigFormBase {
     // make sure that the jsonapi_language_prefix is set back to false.
     $languageManager = \Drupal::languageManager();
     $languagePrefix = $form_state->getValue('language_prefix');
-    if(!$languageManager->isMultilingual()) {
+    if (!$languageManager->isMultilingual()) {
       $languagePrefix = FALSE;
     }
     $this->config('react_calendar.settings')
