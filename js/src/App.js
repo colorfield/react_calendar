@@ -7,14 +7,20 @@ class App extends Component {
   render() {
 
     /**
-     * "data": [{
-     *   "entity_type_id": "node",
-     *   "bundle_id": "event",
-     *   "date_field_name": "field_date_range"
-     * }]
+     * Data source sample value.
+     *
+     * {
+     *   "bundle_configuration": [{
+     *     "entity_type_id": "node",
+     *     "bundle_id": "event",
+     *     "date_field_name": "field_date_range"
+     *   }]
+     * }
+     *
      * @type {string}
      */
     const dataSource = api.getDataAttributeValue('data-source');
+    const jsonDataSource = JSON.parse(dataSource);
     const defaultView = api.getDataAttributeValue('default-view');
     // Cast string as boolean.
     const languagePrefix = (api.getDataAttributeValue('language-prefix') === 'true');
@@ -35,7 +41,7 @@ class App extends Component {
           <span />
         )}
         <CalendarView
-          dataSource={dataSource.data}
+          bundleConfiguration={jsonDataSource.bundle_configuration}
           defaultView={defaultView}
           languagePrefix={languagePrefix}
           languageId={languageId}

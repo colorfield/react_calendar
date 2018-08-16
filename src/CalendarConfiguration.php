@@ -54,13 +54,21 @@ class CalendarConfiguration implements CalendarConfigurationInterface {
   /**
    * {@inheritdoc}
    */
-  public function getEnabledEntityTypeBundles($entity_type_id) {
+  public function getEnabledEntityTypeBundlesConfiguration($entity_type_id) {
     $result = [];
     try {
-      $entityTypes = $this->entityTypeManager->getStorage($entity_type_id)->loadMultiple();
-      foreach ($entityTypes as $entityType) {
+      $entityTypeStorage = $this->entityTypeManager->getStorage($entity_type_id);
+      $entityTypeBundles = $entityTypeStorage->loadMultiple();
+      $provider = $entityTypeStorage->getEntityType()->getProvider();
+      foreach ($entityTypeBundles as $bundle) {
         // @todo check enabled
-        $result[] = $entityType->id();
+        if ($this->getEntityBundleSettings('enabled', $provider, $bundle->id())) {
+          $result[] = [
+            'entity_type_id' => $provider,
+            'bundle_id' => $bundle->id(),
+            'date_field_name' => $this->getEntityBundleSettings('date_field', $provider, $bundle->id()),
+          ];
+        }
       }
     }
     catch (PluginNotFoundException $exception) {
@@ -84,9 +92,9 @@ class CalendarConfiguration implements CalendarConfigurationInterface {
   /**
    * {@inheritdoc}
    */
-  public function getEntityBundleSettings($setting, $entity_type_id, $bundle) {
+  public function getEntityBundleSettings($setting, $entity_type_id, $bundle_id) {
     $config = $this->configFactory->get('react_calendar.entity_type.settings');
-    $settings = unserialize($config->get('react_calendar_bundle.' . $entity_type_id . '.' . $bundle));
+    $settings = unserialize($config->get('react_calendar_bundle.' . $entity_type_id . '.' . $bundle_id));
     if (empty($settings)) {
       $settings = [];
     }
@@ -101,7 +109,7 @@ class CalendarConfiguration implements CalendarConfigurationInterface {
   /**
    * {@inheritdoc}
    */
-  public function setEntityBundleSettings(array $settings, $entity_type_id, $bundle) {
+  public function setEntityBundleSettings(array $settings, $entity_type_id, $bundle_id) {
     $config = \Drupal::configFactory()->getEditable('react_calendar.entity_type.settings');
     // Do not store default values.
     foreach ($this->getEntityBundleSettingDefaults() as $setting => $default_value) {
@@ -109,7 +117,7 @@ class CalendarConfiguration implements CalendarConfigurationInterface {
         unset($settings[$setting]);
       }
     }
-    $config->set('react_calendar_bundle.' . $entity_type_id . '.' . $bundle, serialize($settings));
+    $config->set('react_calendar_bundle.' . $entity_type_id . '.' . $bundle_id, serialize($settings));
     $config->save();
   }
 

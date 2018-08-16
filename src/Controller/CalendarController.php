@@ -52,14 +52,16 @@ class CalendarController extends ControllerBase {
    */
   public function calendar() {
     $systemWideConfig = $this->configFactory->get('react_calendar.settings');
-    // $enabledBundles = $this->reactCalendarConfig->getEnabledBundles();
-    // if (empty($enabledBundles)) {
-    // \Drupal::messenger()->
-    // addError($this->t('There must be at least one enabled bundle.'));
-    // return $build;
-    // }.
-    // @todo get enabled bundles and configured field
-    $dataSource = "data': [{'entity_type_id': 'node','bundle_id': 'event','date_field_name': 'field_datetime_range'}]";
+    // @todo generalize to other entity types or use field configuration.
+    $enabledBundlesConfiguration = $this->reactCalendarConfig->getEnabledEntityTypeBundlesConfiguration('node_type');
+    if (empty($enabledBundlesConfiguration)) {
+      \Drupal::messenger()->addError($this->t("There must be at least one enabled bundle (e.g. 'event' content type) to display entries on the calendar."));
+    }
+    // Get enabled bundles and configured date field for each.
+    $dataSource = [
+      'bundle_configuration' => $enabledBundlesConfiguration,
+    ];
+    $dataSource = json_encode($dataSource);
     $languagePrefix = $systemWideConfig->get('language_prefix') == '1' ? 'true' : 'false';
     $languageId = $this->languageManager()->getCurrentLanguage()->getId();
     $build = [

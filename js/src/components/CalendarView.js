@@ -9,7 +9,7 @@ import api from '../utils/api.js';
 class CalendarView extends React.Component {
 
   static propTypes = {
-    dataSource: PropTypes.arrayOf(PropTypes.shape({
+    bundleConfiguration: PropTypes.arrayOf(PropTypes.shape({
       entity_type_id: PropTypes.string.isRequired,
       bundle_id: PropTypes.string.isRequired,
       date_field_name: PropTypes.string.isRequired,
@@ -52,14 +52,22 @@ class CalendarView extends React.Component {
   }
 
   /**
-   * Fetches events data.
+   * Fetches events data by endpoint.
+   */
+  fetchEventsByEndpoint(endpoint) {
+
+  }
+
+  /**
+   * Fetches events data for all endpoints.
    */
   fetchEvents() {
-    const endpoint = this.getEventsEndpoint();
-    // @todo get field from data attributes.
+    const endpoint = this.getJsonApiEndpoints();
+    // @todo get field from endpoint index.
     const dateField = 'field_datetime_range';
     this.setState({isLoading: true});
-    fetch(endpoint)
+    // @todo iterate through endpoints
+    fetch(endpoint[0])
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText);
@@ -83,6 +91,7 @@ class CalendarView extends React.Component {
                 // @todo set this property from start and end dates
                 allDay: false,
                 // Convert date with timezone if any.
+                // @todo handle datetime range and datetime
                 start: moment(event.attributes[dateField].value, 'YYYY-MM-DDTHH:mm:ssZ').toDate(),
                 end: moment(event.attributes[dateField].end_value, 'YYYY-MM-DDTHH:mm:ssZ').toDate(),
               }
@@ -95,26 +104,26 @@ class CalendarView extends React.Component {
   }
 
   /**
-   * Returns the JSON API endpoint
-   * with optional params like filter, sort, ...
+   * Returns the JSON API endpoints for each configured bundle,
+   * indexed by field instance.
    *
-   * @returns {string}
+   * @returns {array}
    */
-  getEventsEndpoint() {
-    const { languagePrefix, languageId } = this.props;
-    // @todo make use of dateBundle prop
-    // @todo iterate through dataSource prop
-    // @todo get events for current time span (month, week, ...) and callback on view change
-    const entityType = 'node';
-    const bundle = 'event';
+  getJsonApiEndpoints() {
+    const { bundleConfiguration, languagePrefix, languageId } = this.props;
+    let result = [];
+    bundleConfiguration.forEach(bundleConfig => {
+      const entityType = bundleConfig.entity_type_id;
+      const bundle = bundleConfig.bundle_id;
+      const dateField = bundleConfig.date_field_name;
 
-    // @todo get field from data attributes.
-    const dateField = 'field_datetime_range';
-    const monthWithPadding = ("0" + (this.state.monthView + 1)).slice(-2);
-    const viewedMonth= `${this.state.yearView}-${monthWithPadding}`;
-    const params = `filter[date-filter][condition][path]=${dateField}&filter[date-filter][condition][operator]=STARTS_WITH&filter[date-filter][condition][value]=${viewedMonth}`;
-    const baseUrlWithLanguagePrefix = languagePrefix ? `${api.getApiBaseUrl()}/${languageId}` : `${api.getApiBaseUrl()}`;
-    return `${baseUrlWithLanguagePrefix}/jsonapi/${entityType}/${bundle}?${params}`;
+      const monthWithPadding = ("0" + (this.state.monthView + 1)).slice(-2);
+      const viewedMonth = `${this.state.yearView}-${monthWithPadding}`;
+      const params = `filter[date-filter][condition][path]=${dateField}&filter[date-filter][condition][operator]=STARTS_WITH&filter[date-filter][condition][value]=${viewedMonth}`;
+      const baseUrlWithLanguagePrefix = languagePrefix ? `${api.getApiBaseUrl()}/${languageId}` : `${api.getApiBaseUrl()}`;
+      result.push(`${baseUrlWithLanguagePrefix}/jsonapi/${entityType}/${bundle}?${params}`);
+    });
+    return result;
   }
 
   /**

@@ -21,7 +21,7 @@ interface CalendarConfigurationInterface {
   public function isBundleEnabled(ContentEntityInterface $entity);
 
   /**
-   * Returns a list of enabled entity types.
+   * Returns a list of enabled entity types configuration.
    *
    * Example: if entity_type_id is node_type, returns the enabled content types.
    *
@@ -29,9 +29,9 @@ interface CalendarConfigurationInterface {
    *   The entity type (e.g. node_type);.
    *
    * @return array
-   *   List of enabled entity types.
+   *   List of enabled entity types configuration.
    */
-  public function getEnabledEntityTypeBundles($entity_type_id);
+  public function getEnabledEntityTypeBundlesConfiguration($entity_type_id);
 
   /**
    * Returns bundles that are enabled for the React Calendar.
@@ -49,13 +49,13 @@ interface CalendarConfigurationInterface {
    *   If 'all' is passed, all available settings are returned.
    * @param string $entity_type_id
    *   The id of the entity type to return settings for.
-   * @param string $bundle
+   * @param string $bundle_id
    *   The id of the bundle to return settings for.
    *
    * @return string|array
    *   The value of the given setting or an array of all settings.
    */
-  public function getEntityBundleSettings($setting, $entity_type_id, $bundle);
+  public function getEntityBundleSettings($setting, $entity_type_id, $bundle_id);
 
   /**
    * Saves React Calendar's settings of an entity type bundle.
@@ -64,10 +64,10 @@ interface CalendarConfigurationInterface {
    *   The available settings for this bundle.
    * @param string $entity_type_id
    *   The id of the entity type to set the settings for.
-   * @param string $bundle
+   * @param string $bundle_id
    *   The id of the bundle to set the settings for.
    */
-  public function setEntityBundleSettings(array $settings, $entity_type_id, $bundle);
+  public function setEntityBundleSettings(array $settings, $entity_type_id, $bundle_id);
 
   /**
    * Returns React Calendar's entity type bundle available settings.
