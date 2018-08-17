@@ -154,7 +154,10 @@ class CalendarView extends React.Component {
       return <p>Loading events...</p>;
     }
 
-    let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
+    // Disable week, work week, day
+    // @todo needs 'back' and 'next' handlers and Drupal configuration.
+    // let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
+    let allViews = ['month', 'agenda'];
     BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 
     return (
