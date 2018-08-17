@@ -51,8 +51,15 @@ content type configuration that currently limits the exposed entities to nodes
 
 ### Drupal
 
+- Enable the Date Range module
 - Enable the React Calendar module
 - Configure CORS to allow `* | http://localhost:3000`
+- Create an 'event' content type with a 'date range' field 
+named 'field_datetime_range'.
+These values are coming from the static js/public/index.html file
+- Use the event content type tab to enable 'React Calendar' 
+and set the date field to the date range field previously created
+- Devel generate some events
 
 ### React
 
