@@ -166,6 +166,7 @@ class CalendarView extends React.Component {
           views={allViews}
           step={60}
           showMultiDayTimes
+          popup
           selectable={true}
           onSelectEvent={event => CalendarView.gotoEventPage(event.id)}
           onNavigate={(date, view) => this.onNavigate(date, view)}

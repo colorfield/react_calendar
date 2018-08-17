@@ -29,6 +29,7 @@ By priority
 - Provide React support for the _Date_ module
 - Expose calendar as a block
 - Review language fallback configuration with JSON API 2.x (/admin/config/react_calendar/settings)
+- Provide configuration for BigCalendar React props
 - Clear cache after module installation to display the React Calendar tab on the content type
 - Set enabled entity types from the date or date range field instance definition instead of the
 content type configuration that currently limits the exposed entities to nodes 
