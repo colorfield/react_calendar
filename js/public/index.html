@@ -25,9 +25,13 @@
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
+    <!--
+      data-source sample for several bundles
+      {"bundle_configuration":[{"entity_type_id":"node","bundle_id":"event","date_field_name":"field_datetime_range"},{"entity_type_id":"node","bundle_id":"article","date_field_name":"field_datetime_range"}]}
+    -->
     <div id="react-app-container"
          data-default-view="month"
-         data-data-source='{ "bundle_configuration": [{"entity_type_id": "node", "bundle_id": "event", "date_field_name": "field_datetime_range"}] }'
+         data-data-source='{"bundle_configuration":[{"entity_type_id":"node","bundle_id":"event","date_field_name":"field_datetime_range"},{"entity_type_id":"node","bundle_id":"article","date_field_name":"field_datetime_range"}]}'
          data-language-prefix="true"
          data-language-id="en">
     </div>
