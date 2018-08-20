@@ -38,7 +38,7 @@ class CalendarView extends React.Component {
     // Init to current date.
     const date = new Date();
     this.state = {
-      dayView: date.getDay(),
+      dayView: 1,
       monthView: date.getMonth(),
       yearView: date.getFullYear(),
       events: [],
@@ -65,7 +65,6 @@ class CalendarView extends React.Component {
     const endpoint = this.getJsonApiEndpoints();
     // @todo get field from endpoint index.
     const dateField = 'field_datetime_range';
-    this.setState({isLoading: true});
     // @todo iterate through endpoints
     fetch(endpoint[0])
       .then(response => {
@@ -136,7 +135,7 @@ class CalendarView extends React.Component {
     this.setState({
       yearView: date.getFullYear(),
       monthView: date.getMonth(),
-      dayView: date.getDay()
+      isLoading: true
     // Set fetchEvents as a callback, so we wait for states.
     }, this.fetchEvents);
   }
@@ -157,6 +156,7 @@ class CalendarView extends React.Component {
     // Disable week, work week, day, agenda
     // @todo needs 'back' and 'next' handlers and Drupal configuration
     // @todo needs timezone support #2
+    // @todo review https://github.com/intljusticemission/react-big-calendar/issues/867
     // let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
     let allViews = ['month'];
     BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
@@ -168,8 +168,6 @@ class CalendarView extends React.Component {
           events={this.state.events}
           defaultView={defaultView}
           views={allViews}
-          step={60}
-          showMultiDayTimes
           popup
           selectable={true}
           onSelectEvent={event => CalendarView.gotoEventPage(event.id)}
