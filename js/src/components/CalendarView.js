@@ -52,21 +52,16 @@ class CalendarView extends React.Component {
   }
 
   /**
-   * Fetches events data by endpoint.
+   * Fetches events by endpoint.
+   *
+   * @param endpoint
+   * @param bundleConfigurationIndex
    */
-  fetchEventsByEndpoint(endpoint) {
-
-  }
-
-  /**
-   * Fetches events data for all endpoints.
-   */
-  fetchEvents() {
-    const endpoint = this.getJsonApiEndpoints();
+  fetchEventsByEndpoint(endpoint, bundleConfigurationIndex) {
+    this.setState({isLoading: true});
     // @todo get field from endpoint index.
     const dateField = 'field_datetime_range';
-    // @todo iterate through endpoints
-    fetch(endpoint[0])
+    fetch(endpoint)
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText);
@@ -79,27 +74,43 @@ class CalendarView extends React.Component {
         const filteredEvents = jsonApiEvents.data.filter((event) =>
           event.attributes[dateField] != null
         );
+        const bundleEvents = [];
         // Map JSON API response to the structure expected by BigCalendar.
-        let bigCalendarEvents = [];
         filteredEvents.map(event => (
-          bigCalendarEvents.push(
+            bundleEvents.push(
               {
                 // @todo generalize to other entity types
-                id: event.attributes.drupal_internal__nid,
+                //id: event.attributes.drupal_internal__nid,
+                id: event.attributes.nid,
                 title: event.attributes.title,
                 // @todo set this property from start and end dates
                 allDay: false,
                 // Convert date with timezone if any.
-                // @todo handle datetime range and datetime
+                // @todo handle datetime
+                // @todo use Drupal site wide configuration for the timezone #2
                 start: moment(event.attributes[dateField].value, 'YYYY-MM-DDTHH:mm:ssZ').toDate(),
                 end: moment(event.attributes[dateField].end_value, 'YYYY-MM-DDTHH:mm:ssZ').toDate(),
               }
             )
           )
         );
-        this.setState({events: bigCalendarEvents, isLoading: false});
+        const allEvents = this.state.events;
+        allEvents.push(...bundleEvents);
+        this.setState({events: allEvents, isLoading: false});
       })
       .catch(() => this.setState({hasError: true}));
+  }
+
+  /**
+   * Fetches events for all endpoints.
+   */
+  fetchEvents() {
+    this.setState({events: []});
+    const endpoints = this.getJsonApiEndpoints();
+    endpoints.forEach((endpoint, index) => {
+      // @todo refactor by using pure function + async/await
+      this.fetchEventsByEndpoint(endpoint, index);
+    });
   }
 
   /**
@@ -134,8 +145,7 @@ class CalendarView extends React.Component {
   onNavigate(date, view) {
     this.setState({
       yearView: date.getFullYear(),
-      monthView: date.getMonth(),
-      isLoading: true
+      monthView: date.getMonth()
     // Set fetchEvents as a callback, so we wait for states.
     }, this.fetchEvents);
   }
