@@ -26,7 +26,6 @@ for the desired content type(s) and set the date field that will be used
 
 By priority
 
-- Provide React support for the _Date_ module
 - Expose calendar as a block
 - Review language fallback configuration with JSON API 2.x (/admin/config/react_calendar/settings)
 - [Timezone support](https://github.com/r-daneelolivaw/react_calendar/issues/2)

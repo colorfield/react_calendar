@@ -76,23 +76,38 @@ class CalendarView extends React.Component {
         );
         const bundleEvents = [];
         // Map JSON API response to the structure expected by BigCalendar.
-        filteredEvents.map(event => (
+        filteredEvents.forEach(event => {
+            // If no end_value is defined (type of is string),
+            // the Drupal date field is from datetime type
+            // and not datetime_range.
+            // Set then the values to comply Big Calendar date in both
+            // cases.
+            let dateTimeValue = event.attributes[dateField].value;
+            let dateTimeEndValue = null;
+            if(typeof event.attributes[dateField] === "string") {
+              dateTimeValue = event.attributes[dateField];
+              dateTimeEndValue = dateTimeValue;
+            }else {
+              dateTimeValue = event.attributes[dateField].value;
+              dateTimeEndValue = event.attributes[dateField].end_value;
+            }
+
             bundleEvents.push(
               {
-                // @todo generalize to other entity types
-                //id: event.attributes.drupal_internal__nid,
-                id: event.attributes.nid,
+                // @todo generalize to other entity types than nodes
+                id: event.attributes.drupal_internal__nid,
+                // JSON API 1.x
+                //id: event.attributes.nid,
                 title: event.attributes.title,
                 // @todo set this property from start and end dates
                 allDay: false,
                 // Convert date with timezone if any.
-                // @todo handle datetime
                 // @todo use Drupal site wide configuration for the timezone #2
-                start: moment(event.attributes[dateField].value, 'YYYY-MM-DDTHH:mm:ssZ').toDate(),
-                end: moment(event.attributes[dateField].end_value, 'YYYY-MM-DDTHH:mm:ssZ').toDate(),
+                start: moment(dateTimeValue, 'YYYY-MM-DDTHH:mm:ssZ').toDate(),
+                end: moment(dateTimeEndValue, 'YYYY-MM-DDTHH:mm:ssZ').toDate(),
               }
             )
-          )
+          }
         );
         const allEvents = this.state.events;
         allEvents.push(...bundleEvents);
