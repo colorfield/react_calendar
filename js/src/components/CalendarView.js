@@ -59,8 +59,8 @@ class CalendarView extends React.Component {
    */
   fetchEventsByEndpoint(endpoint, bundleConfigurationIndex) {
     this.setState({isLoading: true});
-    // @todo get field from endpoint index.
-    const dateField = 'field_datetime_range';
+    // Get field name from endpoint index.
+    const dateField = this.props.bundleConfiguration[bundleConfigurationIndex].date_field_name;
     fetch(endpoint)
       .then(response => {
         if (!response.ok) {
