@@ -5,4 +5,5 @@ core: 8.x
 configure: react_calendar.settings_form
 package: 'Date/Time'
 dependencies:
-  - jsonapi:jsonapi (>=2.0)
+  # @todo set dependency to 2.0 after a first stable release
+  - jsonapi:jsonapi (>=2)
