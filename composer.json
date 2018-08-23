@@ -11,6 +11,6 @@
     "source": "http://cgit.drupalcode.org/react_calendar"
   },
   "require": {
-    "drupal/jsonapi": "2.x-dev"
+    "drupal/jsonapi": "^2.0"
   }
 }
