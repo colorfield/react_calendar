@@ -5,6 +5,4 @@ core: 8.x
 configure: react_calendar.settings_form
 package: 'Date/Time'
 dependencies:
-  - calendar
-  - jsonapi
-  - datetime_range
+  - jsonapi:jsonapi (>=2.0)
