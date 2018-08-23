@@ -58,7 +58,6 @@ class CalendarView extends React.Component {
    * @param bundleConfigurationIndex
    */
   fetchEventsByEndpoint(endpoint, bundleConfigurationIndex) {
-    this.setState({isLoading: true});
     // Get field name from endpoint index.
     const dateField = this.props.bundleConfiguration[bundleConfigurationIndex].date_field_name;
     fetch(endpoint)
@@ -96,10 +95,8 @@ class CalendarView extends React.Component {
               {
                 // @todo generalize to other entity types than nodes
                 id: event.attributes.drupal_internal__nid,
-                // JSON API 1.x
-                //id: event.attributes.nid,
                 title: event.attributes.title,
-                // @todo set this property from start and end dates
+                // @todo set this property once available in Drupal
                 allDay: false,
                 // Convert date with timezone if any.
                 // @todo use Drupal site wide configuration for the timezone #2
@@ -111,7 +108,7 @@ class CalendarView extends React.Component {
         );
         const allEvents = this.state.events;
         allEvents.push(...bundleEvents);
-        this.setState({events: allEvents, isLoading: false});
+        this.setState({events: allEvents});
       })
       .catch(() => this.setState({hasError: true}));
   }
@@ -120,12 +117,13 @@ class CalendarView extends React.Component {
    * Fetches events for all endpoints.
    */
   fetchEvents() {
-    this.setState({events: []});
+    this.setState({events: [], isLoading: true});
     const endpoints = this.getJsonApiEndpoints();
     endpoints.forEach((endpoint, index) => {
       // @todo refactor by using pure function + async/await
       this.fetchEventsByEndpoint(endpoint, index);
     });
+    this.setState({isLoading: false});
   }
 
   /**
