@@ -47,6 +47,38 @@ class CalendarConfiguration implements CalendarConfigurationInterface {
   /**
    * {@inheritdoc}
    */
+  public function getCalendar() {
+    $systemWideConfig = $this->configFactory->get('react_calendar.settings');
+    // @todo generalize to other entity types or use field configuration.
+    $enabledBundlesConfiguration = $this->getEnabledEntityTypeBundlesConfiguration('node_type');
+    if (empty($enabledBundlesConfiguration)) {
+      \Drupal::messenger()->addError($this->t("There must be at least one enabled bundle (e.g. 'event' content type) to display entries on the calendar."));
+    }
+    // Get enabled bundles and configured date field for each.
+    $dataSource = [
+      'bundle_configuration' => $enabledBundlesConfiguration,
+    ];
+    $dataSource = json_encode($dataSource);
+    $languagePrefix = $systemWideConfig->get('language_prefix') == '1' ? 'true' : 'false';
+    $languageId = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $build = [
+      '#theme' => 'react_calendar',
+      '#data_source' => $dataSource,
+      '#default_view' => $systemWideConfig->get('default_view'),
+      '#language_prefix' => $languagePrefix,
+      '#language_id' => $languageId,
+      '#attached' => [
+        'library' => [
+          'react_calendar/react_calendar',
+        ],
+      ],
+    ];
+    return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function isBundleEnabled(ContentEntityInterface $entity) {
     return $this->getEntityBundleSettings('enabled', $entity->getEntityTypeId(), $entity->bundle());
   }

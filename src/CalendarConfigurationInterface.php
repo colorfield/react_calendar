@@ -10,6 +10,16 @@ use Drupal\Core\Entity\ContentEntityInterface;
 interface CalendarConfigurationInterface {
 
   /**
+   * Returns a React Calendar.
+   *
+   * Wrapper for a configured calendar.
+   *
+   * @return array
+   *   Return the calendar render array.
+   */
+  public function getCalendar();
+
+  /**
    * Checks if an entity bundle is enabled.
    *
    * @param \Drupal\Core\Entity\ContentEntityInterface $entity

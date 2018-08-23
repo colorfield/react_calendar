@@ -26,8 +26,9 @@ for the desired content type(s) and set the date field that will be used
 
 By priority
 
-- Expose calendar as a block
-- Review language fallback configuration with JSON API 2.x (/admin/config/react_calendar/settings)
+- ~~Expose calendar as a block~~
+- Content translation review for language fallback
+ (/admin/config/react_calendar/settings)
 - [Timezone support](https://github.com/r-daneelolivaw/react_calendar/issues/2)
 - Provide configuration for BigCalendar React props,
 including views (month, week, work week, day, agenda)
