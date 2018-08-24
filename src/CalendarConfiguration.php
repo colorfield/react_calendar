@@ -52,7 +52,7 @@ class CalendarConfiguration implements CalendarConfigurationInterface {
     // @todo generalize to other entity types or use field configuration.
     $enabledBundlesConfiguration = $this->getEnabledEntityTypeBundlesConfiguration('node_type');
     if (empty($enabledBundlesConfiguration)) {
-      \Drupal::messenger()->addError($this->t("There must be at least one enabled bundle (e.g. 'event' content type) to display entries on the calendar."));
+      \Drupal::messenger()->addError(t("There must be at least one enabled bundle (e.g. 'event' content type) to display entries on the calendar."));
     }
     // Get enabled bundles and configured date field for each.
     $dataSource = [
