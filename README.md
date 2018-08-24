@@ -29,6 +29,7 @@ By priority
 - ~~Expose calendar as a block~~
 - Content translation review for language fallback
  (/admin/config/react_calendar/settings)
+- Configure events title display as multiline in month view 
 - [Timezone support](https://github.com/r-daneelolivaw/react_calendar/issues/2)
 - Provide configuration for BigCalendar React props,
 including views (month, week, work week, day, agenda)
